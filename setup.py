@@ -14,6 +14,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
+            'termsession = termsession.cli:entry_point',
         ],
     },
     package_data={
