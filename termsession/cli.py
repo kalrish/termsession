@@ -1,4 +1,5 @@
 import argparse
+import sys
 import termsession.main
 
 
@@ -22,10 +23,20 @@ def setup_argparser():
         dest='action',
     )
 
+    parser_show = subparsers.add_parser(
+        'show',
+        help='display .desktop file',
+    )
+
     return parser
 
 
+def open_show(args):
+    return sys.stdout
+
+
 action_output = {
+    'show': open_show,
 }
 
 
