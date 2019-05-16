@@ -1,6 +1,7 @@
 import argparse
 import sys
 import termsession.main
+from xdg import BaseDirectory
 
 
 def setup_argparser():
@@ -23,6 +24,11 @@ def setup_argparser():
         dest='action',
     )
 
+    parser_install = subparsers.add_parser(
+        'install',
+        help='install .desktop file',
+    )
+
     parser_save = subparsers.add_parser(
         'save',
         help='save .desktop file',
@@ -41,6 +47,19 @@ def setup_argparser():
     return parser
 
 
+def open_install(args):
+    try:
+        path = BaseDirectory.save_config_path('autostart')
+
+        output = open(f'{path}/terminal.desktop', 'w')
+    except:
+        print('cannot open output file')
+
+        output = None
+
+    return output
+
+
 def open_save(args):
     try:
         output = open(args.output, 'w')
@@ -57,6 +76,7 @@ def open_show(args):
 
 
 action_output = {
+    'install': open_install,
     'save': open_save,
     'show': open_show,
 }
