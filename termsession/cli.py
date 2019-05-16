@@ -23,6 +23,16 @@ def setup_argparser():
         dest='action',
     )
 
+    parser_save = subparsers.add_parser(
+        'save',
+        help='save .desktop file',
+    )
+
+    parser_save.add_argument(
+        'output',
+        help='output file path',
+    )
+
     parser_show = subparsers.add_parser(
         'show',
         help='display .desktop file',
@@ -31,11 +41,23 @@ def setup_argparser():
     return parser
 
 
+def open_save(args):
+    try:
+        output = open(args.output, 'w')
+    except:
+        print('cannot open output file')
+
+        output = None
+
+    return output
+
+
 def open_show(args):
     return sys.stdout
 
 
 action_output = {
+    'save': open_save,
     'show': open_show,
 }
 
