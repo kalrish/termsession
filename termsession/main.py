@@ -1,9 +1,13 @@
 import importlib
+import logging
 import termsession.preprocess
 import termsession.render
 import termsession.save
 import termsession.sessions
 import termsession.shell
+
+
+logger = logging.getLogger(__name__)
 
 
 class Error(Exception):
@@ -30,6 +34,7 @@ def quote_arguments(unquoted_arguments):
 def main(output, sessions_file, terminal_client):
     try:
         sessions = termsession.sessions.load(sessions_file)
+        logger.debug('sessions file loaded successfully')
     except:
         raise UnloadableSessionsFile()
 
@@ -37,6 +42,7 @@ def main(output, sessions_file, terminal_client):
         terminal_module = importlib.import_module(
             name=f'termsession.terminals.{terminal_client}',
         )
+        logger.debug('terminal client module loaded successfully')
     except ModuleNotFoundError:
         raise UnsupportedTerminalClient()
 

@@ -1,4 +1,5 @@
 import argparse
+import logging
 import sys
 import termsession.main
 from xdg import BaseDirectory
@@ -6,6 +7,19 @@ from xdg import BaseDirectory
 
 def setup_argparser():
     parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        '-l, --log',
+        help='log level',
+        required=False,
+        choices=[
+            'debug',
+            'info',
+            'warning',
+            'error',
+        ],
+        dest='log_level',
+    )
 
     parser.add_argument(
         '-t, --terminal',
@@ -83,15 +97,25 @@ action_output = {
 
 
 def entry_point():
+    logger = logging.getLogger('termsession')
+    logger_handler = logging.StreamHandler()
+    logger.addHandler(logger_handler)
+
     parser = setup_argparser()
 
     args = parser.parse_args()
+
+    if args.log_level:
+        level = args.log_level.upper()
+        logger.setLevel(level)
+        logger_handler.setLevel(level)
 
     return_value = 1
 
     output = action_output[args.action](args)
 
     if output:
+        logger.debug('output stream opened successfully')
         try:
             termsession.main.main(
                 output=output,
