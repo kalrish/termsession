@@ -46,9 +46,11 @@ def main(output, sessions_file, terminal_client):
     except ModuleNotFoundError:
         raise UnsupportedTerminalClient()
 
-    termsession.preprocess.expand_paths(sessions)
+    enabled_sessions = termsession.preprocess.get_enabled(sessions)
 
-    command = terminal_module.generate(sessions)
+    termsession.preprocess.expand_paths(enabled_sessions)
+
+    command = terminal_module.generate(enabled_sessions)
 
     quoted_command = termsession.shell.quote(command['command'])
     quoted_arguments = quote_arguments(command['arguments'])

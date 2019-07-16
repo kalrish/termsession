@@ -9,3 +9,13 @@ def expand_paths(sessions):
             session['working_directory'] = os.path.expanduser(session['working_directory'])
 
     return sessions
+
+
+def get_enabled(sessions):
+    enabled_sessions = [
+        session
+        for session in sessions
+        if session.get('enabled', True) == True
+    ]
+
+    return enabled_sessions
