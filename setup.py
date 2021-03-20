@@ -9,7 +9,7 @@ setuptools.setup(
         'termsession.terminals',
     ],
     install_requires=[
-        'Jinja2 == 2.10.1',
+        'Jinja2 == 2.11.3',
         'pyyaml == 5.1',
         'pyxdg == 0.26',
     ],
